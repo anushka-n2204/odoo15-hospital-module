@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================================
+         DOCTOR FORM VIEW
+    ====================================================================== -->
+    <record id="view_hospital_doctor_form" model="ir.ui.view">
+        <field name="name">hospital.doctor.form</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <form string="Doctor">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Doctor Full Name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Professional Details">
+                            <field name="specialization"/>
+                        </group>
+                        <group string="Contact Information">
+                            <field name="phone"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         DOCTOR LIST VIEW
+    ====================================================================== -->
+    <record id="view_hospital_doctor_list" model="ir.ui.view">
+        <field name="name">hospital.doctor.list</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <tree string="Doctors" decoration-muted="active == False">
+                <field name="name"/>
+                <field name="specialization"/>
+                <field name="phone"/>
+                <field name="active" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         DOCTOR SEARCH VIEW
+    ====================================================================== -->
+    <record id="view_hospital_doctor_search" model="ir.ui.view">
+        <field name="name">hospital.doctor.search</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <search string="Search Doctors">
+                <field name="name" string="Doctor Name"/>
+                <field name="specialization" string="Specialization"/>
+
+                <filter string="Archived" name="filter_inactive"
+                        domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Specialization" name="group_specialization"
+                            context="{'group_by': 'specialization'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         DOCTOR WINDOW ACTION
+    ====================================================================== -->
+    <record id="action_hospital_doctor" model="ir.actions.act_window">
+        <field name="name">Doctors</field>
+        <field name="res_model">hospital.doctor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_hospital_doctor_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first doctor!
+            </p>
+            <p>
+                Maintain a list of doctors along with their
+                specializations and contact details.
+            </p>
+        </field>
+    </record>
+
+</odoo>

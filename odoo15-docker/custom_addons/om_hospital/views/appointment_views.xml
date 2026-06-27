@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================================
+         APPOINTMENT SEQUENCE  (auto-generated reference numbers)
+    ====================================================================== -->
+    <record id="seq_hospital_appointment" model="ir.sequence">
+        <field name="name">Hospital Appointment Sequence</field>
+        <field name="code">hospital.appointment</field>
+        <field name="prefix">APT/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- =====================================================================
+         APPOINTMENT FORM VIEW
+    ====================================================================== -->
+    <record id="view_hospital_appointment_form" model="ir.ui.view">
+        <field name="name">hospital.appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointment">
+
+                <!-- Status bar at the top of the form -->
+                <header>
+                    <!-- Workflow buttons -->
+                    <button name="action_confirm"
+                            string="Confirm"
+                            type="object"
+                            class="btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+                    <button name="action_done"
+                            string="Mark as Done"
+                            type="object"
+                            class="btn-success"
+                            attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            class="btn-danger"
+                            attrs="{'invisible': [('state', 'in', ['done', 'cancelled'])]}"/>
+
+                    <button name="action_reset_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+
+                    <!-- State progress bar -->
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,in_progress,done"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Appointment Details">
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                            <field name="appointment_date"/>
+                        </group>
+                        <group string="Status">
+                            <field name="state" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                    <group string="Notes / Description">
+                        <field name="description"
+                               nolabel="1"
+                               placeholder="Enter reason for visit or any additional notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         APPOINTMENT LIST VIEW
+    ====================================================================== -->
+    <record id="view_hospital_appointment_list" model="ir.ui.view">
+        <field name="name">hospital.appointment.list</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <tree string="Appointments"
+                  decoration-success="state == 'done'"
+                  decoration-info="state == 'in_progress'"
+                  decoration-danger="state == 'cancelled'"
+                  decoration-muted="active == False">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="appointment_date"/>
+                <field name="state"
+                       decoration-success="state == 'done'"
+                       decoration-info="state == 'in_progress'"
+                       decoration-danger="state == 'cancelled'"
+                       decoration-warning="state == 'draft'"/>
+                <field name="active" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         APPOINTMENT SEARCH VIEW
+    ====================================================================== -->
+    <record id="view_hospital_appointment_search" model="ir.ui.view">
+        <field name="name">hospital.appointment.search</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Search Appointments">
+                <!-- Search fields -->
+                <field name="name" string="Reference"/>
+                <field name="patient_id" string="Patient"/>
+                <field name="doctor_id" string="Doctor"/>
+
+                <!-- Filters by state -->
+                <filter string="Draft" name="filter_draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="In Progress" name="filter_in_progress"
+                        domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Done" name="filter_done"
+                        domain="[('state', '=', 'done')]"/>
+                <filter string="Cancelled" name="filter_cancelled"
+                        domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Today" name="filter_today"
+                        domain="[('appointment_date', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)).strftime('%Y-%m-%d %H:%M:%S')),
+                                  ('appointment_date', '&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                <separator/>
+                <filter string="Archived" name="filter_inactive"
+                        domain="[('active', '=', False)]"/>
+
+                <!-- Group By -->
+                <group expand="0" string="Group By">
+                    <filter string="Patient" name="group_patient"
+                            context="{'group_by': 'patient_id'}"/>
+                    <filter string="Doctor" name="group_doctor"
+                            context="{'group_by': 'doctor_id'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="group_date"
+                            context="{'group_by': 'appointment_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         APPOINTMENT WINDOW ACTION
+    ====================================================================== -->
+    <record id="action_hospital_appointment" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="res_model">hospital.appointment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_hospital_appointment_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Schedule your first appointment!
+            </p>
+            <p>
+                Manage patient appointments, track their progress through the
+                workflow, and generate PDF reports.
+            </p>
+        </field>
+    </record>
+
+</odoo>

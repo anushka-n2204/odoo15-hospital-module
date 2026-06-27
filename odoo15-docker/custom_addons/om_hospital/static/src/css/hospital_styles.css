@@ -1,0 +1,175 @@
+/* =============================================================================
+   Hospital Management System — Backend CSS Styles
+   Module: om_hospital
+   These styles are loaded via web.assets_backend in __manifest__.py
+   ============================================================================= */
+
+/* ─── Status bar state colours ─────────────────────────────────────────────── */
+
+/* Draft state — neutral grey */
+.o_field_widget.o_statusbar_status
+    .o_arrow_button[data-value="draft"],
+.o_statusbar_status
+    .o_arrow_button[data-value="draft"] {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+
+/* In Progress state — blue */
+.o_statusbar_status
+    .o_arrow_button[data-value="in_progress"] {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+/* Done state — green */
+.o_statusbar_status
+    .o_arrow_button[data-value="done"] {
+    background-color: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+/* Cancelled state — red */
+.o_statusbar_status
+    .o_arrow_button[data-value="cancelled"] {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+/* ─── Appointment list view row colours ─────────────────────────────────────── */
+
+/* Already handled by Odoo tree decoration- attributes, but we can reinforce: */
+.o_data_row.o_state_done td {
+    color: #198754;
+}
+.o_data_row.o_state_cancelled td {
+    color: #dc3545;
+}
+
+/* ─── Form view header ──────────────────────────────────────────────────────── */
+
+/* Slight visual weight on the appointment reference */
+.o_form_view .oe_title h1 .o_field_widget[name="name"] input {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #1a1a2e;
+}
+
+/* Confirm button — make it stand out */
+button[name="action_confirm"].btn-primary {
+    background-color: #0d6efd;
+    border-color: #0a58ca;
+    font-weight: 600;
+}
+
+/* Mark Done button */
+button[name="action_done"].btn-success {
+    background-color: #198754;
+    border-color: #146c43;
+    font-weight: 600;
+}
+
+/* Cancel button */
+button[name="action_cancel"].btn-danger {
+    background-color: #dc3545;
+    border-color: #b02a37;
+    font-weight: 600;
+}
+
+/* ─── PDF Report Styles (rendered server-side via wkhtmltopdf) ──────────────── */
+
+.hospital-report-header {
+    padding: 20px 0 10px 0;
+}
+
+.hospital-report-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: 0.5px;
+}
+
+.hospital-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.hospital-report-thead th {
+    background-color: #1a1a2e;
+    color: #fff;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.hospital-report-table td {
+    padding: 10px 14px;
+    vertical-align: middle;
+}
+
+.hospital-label {
+    width: 35%;
+    background-color: #f1f3f5;
+}
+
+/* State badges in PDF */
+.hospital-badge-draft {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.hospital-badge-inprogress {
+    background-color: #0d6efd;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.hospital-badge-done {
+    background-color: #198754;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.hospital-badge-cancelled {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* Notes box */
+.hospital-notes-box {
+    background-color: #f8f9fa;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.hospital-notes-section h5 {
+    font-weight: 700;
+    color: #1a1a2e;
+    border-bottom: 2px solid #1a1a2e;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+}
+
+/* Footer */
+.hospital-report-footer {
+    border-top: 1px solid #dee2e6;
+    padding-top: 12px;
+    font-size: 11px;
+    color: #6c757d;
+}

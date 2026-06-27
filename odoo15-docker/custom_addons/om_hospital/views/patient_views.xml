@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================================
+         PATIENT FORM VIEW
+    ====================================================================== -->
+    <record id="view_hospital_patient_form" model="ir.ui.view">
+        <field name="name">hospital.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <sheet>
+                    <!-- Patient avatar / title row -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Patient Full Name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <!-- Left column — personal info -->
+                        <group string="Personal Information">
+                            <field name="date_of_birth"/>
+                            <field name="gender"/>
+                            <field name="age"/>
+                        </group>
+                        <!-- Right column — contact + assignment -->
+                        <group string="Contact &amp; Assignment">
+                            <field name="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="doctor_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                    <!-- Appointments tab -->
+                    <notebook>
+                        <page string="Appointments" name="appointments">
+                            <field name="appointment_ids" readonly="1">
+                                <tree string="Appointments" decoration-success="state == 'done'"
+                                      decoration-info="state == 'in_progress'"
+                                      decoration-muted="state == 'cancelled'">
+                                    <field name="name"/>
+                                    <field name="doctor_id"/>
+                                    <field name="appointment_date"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         PATIENT LIST VIEW
+    ====================================================================== -->
+    <record id="view_hospital_patient_list" model="ir.ui.view">
+        <field name="name">hospital.patient.list</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <tree string="Patients" decoration-muted="active == False">
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="doctor_id"/>
+                <field name="active" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         PATIENT SEARCH VIEW
+    ====================================================================== -->
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Search Patients">
+                <!-- Search fields -->
+                <field name="name" string="Patient Name"/>
+                <field name="doctor_id" string="Doctor"/>
+                <field name="phone" string="Phone"/>
+
+                <!-- Filters -->
+                <filter string="Male" name="filter_male"
+                        domain="[('gender', '=', 'male')]"/>
+                <filter string="Female" name="filter_female"
+                        domain="[('gender', '=', 'female')]"/>
+                <separator/>
+                <filter string="Archived" name="filter_inactive"
+                        domain="[('active', '=', False)]"/>
+
+                <!-- Group By -->
+                <group expand="0" string="Group By">
+                    <filter string="Gender" name="group_gender"
+                            context="{'group_by': 'gender'}"/>
+                    <filter string="Doctor" name="group_doctor"
+                            context="{'group_by': 'doctor_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- =====================================================================
+         PATIENT WINDOW ACTION
+    ====================================================================== -->
+    <record id="action_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_hospital_patient_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first patient!
+            </p>
+            <p>
+                Manage patient records including personal details,
+                contact information, and appointment history.
+            </p>
+        </field>
+    </record>
+
+</odoo>

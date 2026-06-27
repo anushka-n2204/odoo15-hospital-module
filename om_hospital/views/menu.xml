@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================================
+         TOP-LEVEL MENU — Hospital
+    ====================================================================== -->
+    <menuitem id="menu_hospital_root"
+              name="Hospital"
+              sequence="10"
+              web_icon="om_hospital,static/src/img/icon.png"/>
+
+    <!-- =====================================================================
+         PATIENTS MENU
+    ====================================================================== -->
+    <menuitem id="menu_hospital_patients"
+              name="Patients"
+              parent="menu_hospital_root"
+              action="action_hospital_patient"
+              sequence="10"/>
+
+    <!-- =====================================================================
+         DOCTORS MENU
+    ====================================================================== -->
+    <menuitem id="menu_hospital_doctors"
+              name="Doctors"
+              parent="menu_hospital_root"
+              action="action_hospital_doctor"
+              sequence="20"/>
+
+    <!-- =====================================================================
+         APPOINTMENTS MENU
+    ====================================================================== -->
+    <menuitem id="menu_hospital_appointments"
+              name="Appointments"
+              parent="menu_hospital_root"
+              action="action_hospital_appointment"
+              sequence="30"/>
+
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================================
+         APPOINTMENT PDF REPORT ACTION
+         Triggered via the "Print" button on the appointment form view.
+         Uses the QWeb template defined in appointment_report_template.xml.
+    ====================================================================== -->
+    <record id="action_report_hospital_appointment" model="ir.actions.report">
+        <field name="name">Appointment Report</field>
+        <field name="model">hospital.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <!-- Must match t-name in appointment_report_template.xml -->
+        <field name="report_name">om_hospital.report_appointment_template</field>
+        <field name="report_file">om_hospital.report_appointment_template</field>
+        <field name="print_report_name">
+            'Appointment - %s' % (object.name)
+        </field>
+        <!-- Binding adds a "Print" option in the action menu of the form -->
+        <field name="binding_model_id" ref="model_hospital_appointment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
